@@ -22,5 +22,9 @@ new Vue({
 	    storageBucket: "notifications-dopamine.appspot.com",
 	    messagingSenderId: "526331891392"
   	})
+
+    const firestore = firebase.firestore();
+    const settings = {timestampsInSnapshots: true};
+    firestore.settings(settings);
   }
 })
