@@ -43,7 +43,7 @@ const mutations = {
   },
   [types.UPDATE_NOTIFICATION] (state, notification) {
     const i = state.notifications.findIndex(element => element.id === notification.id)
-    state.notifications[i] = notification
+    state.notifications.splice(i, 1, notification)
   },
   [types.DELETE_NOTIFICATION] (state, notification) {
     state.notifications = state.notifications.filter(value => value.id !== notification.id)
