@@ -1,0 +1,41 @@
+import firebase from 'firebase'
+
+export const NOTIFICATIONS_COLLECTION = 'notifications'
+
+export default {
+  getNotifications,
+  createNotification,
+  updateNotification,
+  removeNotification
+}
+
+function getNotifications () {
+  return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).get()
+    .then((snapshot) => {
+      let notifications = []
+      snapshot.forEach((note) => {
+        notifications.push({
+          id: note.id,
+          type: note.data().type,
+          title: note.data().title,
+          text: note.data().text
+        })
+      })
+      return notifications
+    })
+}
+
+function createNotification () {
+  return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).add(notification)
+  .then(docRef => {
+    return docRef.id
+  })
+}
+
+function updateNotification () {
+
+}
+
+function removeNotification (id) {
+
+}

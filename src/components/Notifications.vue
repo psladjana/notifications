@@ -1,10 +1,10 @@
 <template>
   <v-menu offset-y left transition="slide-y-transition">
-  
+
     <v-btn slot="activator">
       <v-icon dark>notifications</v-icon>
       <v-badge color="red" overlap right>
-        <span slot="badge">0</span>
+        <span slot="badge">{{ unreadNotificationsCount }}</span>
       </v-badge> 
     </v-btn>
 
@@ -14,7 +14,7 @@
           Notifications
         </v-card-title>
         <v-list-tile
-          v-for="(item, index) in items"
+          v-for="(item, index) in notifications"
           :key="index"
           @click=""
         >
@@ -29,16 +29,20 @@
   </v-menu>
 </template>
 <script>
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     data () {
       return {
-        items: [
-          { title: 'Note 1' },
-          { title: 'Note 2' },
-          { title: 'Note 3' },
-          { title: 'Note 4' }
-        ]
       }
+    },
+    created () {
+      this.getNotifications()
+    },
+    methods: {
+      ...mapActions(['getNotifications'])
+    },
+    computed: {
+      ...mapGetters(['notifications', 'unreadNotificationsCount'])
     }
   }
 </script>
