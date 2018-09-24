@@ -29,13 +29,17 @@ const actions = {
   removeNotification ({commit}, notificationId) {
     console.log(notificationId)
     return notificationService.removeNotification(notificationId)
-  }
+  },
+  markAllRead({commit}) {
+    state.notifications.forEach(element => element.seen = true)
+    return commit(types.SET_NOTIFICATIONS, state.notifications)
+  } 
 }
 
 const mutations = {
   [types.ADD_NOTIFICATION] (state, notification) {
     notification.seen = false
-    state.notifications.push(notification)
+    state.notifications.unshift(notification)
   },
   [types.UPDATE_NOTIFICATION] (state, notification) {
     const i = state.notifications.findIndex(element => element.id === notification.id)
@@ -43,6 +47,9 @@ const mutations = {
   },
   [types.DELETE_NOTIFICATION] (state, notification) {
     state.notifications = state.notifications.filter(value => value.id !== notification.id)
+  },
+  [types.SET_NOTIFICATIONS] (state, notifications) {
+    state.notifications = notifications
   }
 }
 

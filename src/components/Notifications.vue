@@ -73,14 +73,21 @@
       return {
         small: true,
         top: true,
-        right: true
+        right: true,
+        menuOpen: false
       }
     },
     created () {
       this.getNotifications()
     },
     methods: {
-      ...mapActions(['getNotifications', 'createNotification', 'updateNotification', 'removeNotification']),
+      ...mapActions([
+        'getNotifications', 
+        'createNotification', 
+        'updateNotification', 
+        'removeNotification',
+        'markAllRead'
+      ]),
       deleteNotification () {
         this.notifications.forEach(notification => {
           if(notification.expires) {
@@ -90,6 +97,12 @@
             }, expire)
           }
         })
+
+        if (this.menuOpen) {
+          this.markAllRead()
+        }
+
+        this.menuOpen = !this.menuOpen
       }
     },
     computed: {
