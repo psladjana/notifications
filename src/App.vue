@@ -5,11 +5,34 @@
     </div>
     <v-content>
       <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
-         
-          </v-layout>
-        </v-slide-y-transition>
+        <v-layout column align-center>
+          <v-data-table
+            :items="notifications"
+            hide-actions
+            class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td  class="text-xs-left">{{ props.item.id }}</td>
+              <td  class="text-xs-left">{{ props.item.title }}</td>
+              <td  class="text-xs-left">{{ props.item.text }}</td>
+              <td class="justify-center layout px-0">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="updateNotification(props.item)"
+                >
+                  edit
+                </v-icon>
+                <v-icon
+                  small
+                  @click="removeNotification(props.item.id)"
+                >
+                  delete
+                </v-icon>
+              </td>
+            </template>
+          </v-data-table>
+          <v-btn @click="createNotification(JSON.parse(notification))">Create notification</v-btn>
+        </v-layout>
       </v-container>
     </v-content>
     <v-footer :fixed="fixed" app>
@@ -20,11 +43,18 @@
 
 <script>
   import Notifications from './components/Notifications.vue'
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     data () {
       return {
-      fixed: true
+        fixed: true
       }
+    },
+    methods: {
+      ...mapActions(['createNotification', 'updateNotification', 'removeNotification'])
+    },
+    computed: {
+      ...mapGetters(['notifications'])
     },
     components: {
       Notifications

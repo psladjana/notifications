@@ -2,7 +2,7 @@ import * as types from './types'
 import notificationService from '../../services/notification'
 
 const state = {
-  notifications: null
+  notifications: []
 }
 
 const getters = {
@@ -14,20 +14,35 @@ const getters = {
 
 const actions = {
   getNotifications ({commit}) {
-    notificationService.getNotifications()
-      .then((notifications) => {
-        console.log(notifications)
-        return commit(types.SET_NOTIFICATINS, notifications)
-      })
+    notificationService.getNotifications(
+      (notification) => { return commit(types.ADD_NOTIFICATION, notification) },
+      (notification) => { return commit(types.UPDATE_NOTIFICATION, notification) },
+      (notification) => { return commit(types.DELETE_NOTIFICATION, notification) }
+    )
   },
-  createDriver ({commit, rootState}, driver) {
-    return notificationService.createNotification()
+  createNotification ({commit}, notification) {
+    return notificationService.createNotification(notification)
+  },
+  updateNotification ({commit}, notification) {
+    return notificationService.updateNotification(notification)
+  },
+  removeNotification ({commit}, notificationId) {
+    console.log(notificationId)
+    return notificationService.removeNotification(notificationId)
   }
 }
 
 const mutations = {
-  [types.SET_NOTIFICATINS] (state, notifications) {
-    state.notifications = notifications
+  [types.ADD_NOTIFICATION] (state, notification) {
+    notification.seen = false
+    state.notifications.push(notification)
+  },
+  [types.UPDATE_NOTIFICATION] (state, notification) {
+    const i = state.notifications.findIndex(element => element.id === notification.id)
+    state.notifications[i] = notification
+  },
+  [types.DELETE_NOTIFICATION] (state, notification) {
+    state.notifications = state.notifications.filter(value => value.id !== notification.id)
   }
 }
 

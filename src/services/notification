@@ -9,33 +9,35 @@ export default {
   removeNotification
 }
 
-function getNotifications () {
-  return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).get()
-    .then((snapshot) => {
-      let notifications = []
-      snapshot.forEach((note) => {
-        notifications.push({
-          id: note.id,
-          type: note.data().type,
-          title: note.data().title,
-          text: note.data().text
-        })
+function getNotifications (addCallback, updateCallback, deleteCallback) {
+  firebase.firestore()
+    .collection(NOTIFICATIONS_COLLECTION)
+    .onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach(function (change) {
+        let notification = change.doc.data()
+        notification.id = change.doc.id
+
+        if (change.type === 'added') {
+          addCallback(notification)
+        }
+        if (change.type === 'modified') {
+          updateCallback(notification)
+        }
+        if (change.type === 'removed') {
+          deleteCallback(notification)
+        }
       })
-      return notifications
     })
 }
 
-function createNotification () {
+function createNotification (notification) {
   return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).add(notification)
-  .then(docRef => {
-    return docRef.id
-  })
 }
 
-function updateNotification () {
-
+function updateNotification (notification) {
+  return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).doc(notification.id).set(notification)
 }
 
 function removeNotification (id) {
-
+  return firebase.firestore().collection(NOTIFICATIONS_COLLECTION).doc(id).delete()
 }
