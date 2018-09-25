@@ -31,7 +31,7 @@ const actions = {
     return notificationService.removeNotification(notificationId)
   },
   markAllRead({commit}) {
-    state.notifications.forEach(element => element.seen = true)
+    state.notifications.forEach(notification => notification.seen = true)
     return commit(types.SET_NOTIFICATIONS, state.notifications)
   } 
 }
