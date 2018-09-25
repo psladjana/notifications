@@ -8,7 +8,7 @@ const state = {
 const getters = {
   notifications: store => store.notifications,
   unreadNotificationsCount: store => {
-    return store.notifications.filter(value => value.type !== 'bonus' && !value.seen).length
+    return store.notifications.filter(element => element.type !== 'bonus' && !element.seen).length
   }
 }
 
@@ -24,11 +24,9 @@ const actions = {
     return notificationService.createNotification(notification)
   },
   updateNotification ({commit}, notification) {
-    console.log('updateNotification', notification)
     return notificationService.updateNotification(notification)
   },
   removeNotification ({commit}, notificationId) {
-    console.log('removeNotification', notificationId)
     return notificationService.removeNotification(notificationId)
   },
   markAllRead({commit}) {
@@ -47,7 +45,7 @@ const mutations = {
     state.notifications.splice(i, 1, notification)
   },
   [types.DELETE_NOTIFICATION] (state, notification) {
-    state.notifications = state.notifications.filter(value => value.id !== notification.id)
+    state.notifications = state.notifications.filter(element => element.id !== notification.id)
   },
   [types.SET_NOTIFICATIONS] (state, notifications) {
     state.notifications = notifications

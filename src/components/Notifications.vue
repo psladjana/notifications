@@ -87,16 +87,17 @@
         'removeNotification',
         'markAllRead'
       ]),
+      /** This will remove notification when expire. */
       deleteNotification () {
         this.notifications.forEach(notification => {
-          if(notification.expires || notification.expires !== 0) {
+          if(notification.expires && notification.expires !== 0) {
             let expire = notification.expires * 1000
             setTimeout(() => {
               this.removeNotification(notification.id)
             }, expire)
           }
         })
-
+        /** This will set seen property to notifications. */
         if (this.menuOpen) {
           this.markAllRead()
         }
