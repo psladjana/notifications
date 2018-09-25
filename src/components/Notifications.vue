@@ -54,7 +54,6 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             <v-list-tile-sub-title>{{ item.text }}</v-list-tile-sub-title>
           </v-list-tile-content>
-          
         </template>
 
         <!-- Rendering of "new" button -->
@@ -90,7 +89,7 @@
       ]),
       deleteNotification () {
         this.notifications.forEach(notification => {
-          if(notification.expires) {
+          if(notification.expires || notification.expires !== 0) {
             let expire = notification.expires * 1000
             setTimeout(() => {
               this.removeNotification(notification.id)

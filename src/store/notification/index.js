@@ -24,10 +24,11 @@ const actions = {
     return notificationService.createNotification(notification)
   },
   updateNotification ({commit}, notification) {
+    console.log('updateNotification', notification)
     return notificationService.updateNotification(notification)
   },
   removeNotification ({commit}, notificationId) {
-    console.log(notificationId)
+    console.log('removeNotification', notificationId)
     return notificationService.removeNotification(notificationId)
   },
   markAllRead({commit}) {

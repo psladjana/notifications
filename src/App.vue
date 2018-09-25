@@ -164,7 +164,42 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem)
+          switch (this.editedItem.type) {
+            case 'text': {
+              let textItem = {
+                id: this.editedItem.id,
+                text: this.editedItem.text,
+                title: this.editedItem.title,
+                type: this.editedItem.type,
+                expires: parseInt(this.editedItem.expires)
+              }
+              this.updateNotification(textItem)
+              break
+            }
+            case 'bonus': {
+              let bonusItem = {
+                id: this.editedItem.id,
+                requirement: this.editedItem.requirement,
+                title: this.editedItem.title,
+                type: this.editedItem.type,
+                expires: parseInt(this.editedItem.expires)
+              }
+              this.updateNotification(bonusItem)
+              break
+            }
+            case 'promotion': {
+              let promotionItem = {
+                id: this.editedItem.id,
+                image: this.editedItem.image,
+                title: this.editedItem.title,
+                type: this.editedItem.type,
+                link: this.editedItem.link,
+                expires: parseInt(this.editedItem.expires)
+              }
+              this.updateNotification(promotionItem)
+              break
+            }
+          }
         } else {
           switch (this.editedItem.type) {
             case 'text': {
