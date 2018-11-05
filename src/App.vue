@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div class="text-xs-right">
-      <notifications />
+      <NotificationMenu :notifications="notifications"/>
     </div>
     <v-content>
       <v-container fluid>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-  import Notifications from './components/Notifications.vue'
+  import NotificationMenu from './components/Notifications/NotificationMenu.vue'
   import { mapActions, mapGetters } from 'vuex'
   export default {
     data: () => ({
@@ -129,8 +129,9 @@
       }
     },
     methods: {
-      ...mapActions(['createNotification', 'updateNotification', 'removeNotification']),
+      ...mapActions(['getNotifications', 'createNotification', 'updateNotification', 'removeNotification']),
       initialize () {
+        this.getNotifications()
         this.items = this.notifications
       },
 
@@ -230,7 +231,7 @@
       }
     },
     components: {
-      Notifications
+      NotificationMenu
     }
   }
 </script>
